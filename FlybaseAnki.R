@@ -15,6 +15,10 @@ res0 <- inner_join(snapshots, gene_summaries, by="gene_id")
 res <- res0 |> dplyr::select(GeneSymbol,GeneID=gene_id,GeneName,Snapshot=gene_snapshot_text,Summary=summary_text) |>
   distinct()
 
+# lots of genes of unknown function
+res <- res |>
+  filter(!str_detect(Snapshot,"Contributions welcome."))
+
 
 # make header
 h <- list(c(paste0("#columns:",paste(colnames(res),collapse=",")),
